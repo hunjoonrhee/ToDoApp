@@ -55,4 +55,18 @@ taskController.editTask = async (req, res) => {
   }
 }
 
+taskController.deleteTask = async (req, res) => {
+  try{
+    const id = req.params.taskId;
+    const result = await Task.findByIdAndDelete(id);
+    if (!result) {
+      return res.status(404).json({ message: 'Task is not found' });
+    }
+    res.status(200).json({ message: 'Task deleted', result });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error by deleting task', err });
+  }
+}
+
 module.exports = taskController;
