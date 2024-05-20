@@ -24,4 +24,35 @@ taskController.getAllTasks = async (req, res) => {
   }
 };
 
+taskController.getTaskById = async (req, res) => {
+  try{
+    const id = req.params.taskId;
+    const task = await Task.findById(id).select('-__v');
+    if (!task) {
+      return res.status(404).send('Not existing Task!');
+    }
+    res.status(200).json({ message: 'Task is found', task });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error by getting task', err });
+  }
+}
+
+taskController.editTask = async (req, res) => {
+  try{
+    const id = req.params.taskId;
+    const updatedTask = req.body;
+    const result = await Task.findOneAndUpdate(
+      {_id: id},
+      {$set: updatedTask},
+      {new: true}
+    )
+    res.status(200).json(result);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error by editing task', err });
+  }
+}
+
 module.exports = taskController;
