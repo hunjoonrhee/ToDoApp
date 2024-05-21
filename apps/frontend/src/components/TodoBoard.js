@@ -7,12 +7,7 @@ function TodoBoard() {
   return (
     <div>
       <h2>To-Do List</h2>
-      { tasks
-        ? <TodoItem tasks={tasks.tasks} />
-        : (
-          <h5> There is no Tasks to show</h5>
-        )}
-
+      {tasks.length !== 0 ? <TodoItem tasks={tasks} /> : <h5> There is no Tasks to show</h5>}
     </div>
   );
 }

@@ -4,28 +4,25 @@ import { Col, Row } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 function TodoItem({ tasks }) {
-  return (
-    tasks.map((task) => {
-      if (!task) return null;
-      return (
-        <Row>
-          <Col xs={12}>
-            <div className="todo-item">
-              <div className="todo-content">{task.task}</div>
+  return tasks.map((task) => {
+    if (!task) return null;
+    return (
+      <Row key={task.id}>
+        <Col xs={12}>
+          <div className="todo-item">
+            <div className="todo-content">{task.task}</div>
 
-              <div>
-                <button className="button-delete">삭제</button>
-                <button className="button-delete">끝남</button>
-              </div>
+            <div>
+              <button className="button-delete">삭제</button>
+              <button className="button-delete">끝남</button>
             </div>
-          </Col>
-        </Row>
-      );
-    })
-
-  );
+          </div>
+        </Col>
+      </Row>
+    );
+  });
 }
 TodoItem.propTypes = {
-  tasks: PropTypes.array.isRequired,
+  tasks: PropTypes.arrayOf(PropTypes.object),
 };
 export default TodoItem;

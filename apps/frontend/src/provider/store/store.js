@@ -5,7 +5,8 @@ const rootReducer = combineReducers({
   taskStore: taskStoreReducer,
 });
 
-export const setupStore = (preloadedState) => configureStore({
-  reducer: rootReducer,
-  preloadedState,
-});
+export const setupStore = (preloadedState) =>
+  configureStore({
+    reducer: rootReducer,
+    preloadedState,
+  });

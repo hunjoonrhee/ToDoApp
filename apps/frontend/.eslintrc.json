@@ -12,7 +12,7 @@
     "node": true,
     "es6": true
   },
-  "extends": ["airbnb"],
+  "extends": ["plugin:prettier/recommended"],
   "plugins": ["import", "react-hooks"],
   "rules": {
     "linebreak-style": "off",

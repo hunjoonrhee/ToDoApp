@@ -13,14 +13,8 @@ export const initialState = {
   getTasksError: null,
 };
 
-export const getAllTasks = createAsyncThunk(
-  'tasks/getAllTasks',
-  getAllTasksThunk,
-);
-export const createANewTask = createAsyncThunk(
-  'tasks/createANewTask',
-  createTaskThunk,
-);
+export const getAllTasks = createAsyncThunk('tasks/getAllTasks', getAllTasksThunk);
+export const createANewTask = createAsyncThunk('tasks/createANewTask', createTaskThunk);
 
 const taskStoreSlice = createSlice({
   name: 'taskStore',
@@ -64,7 +58,6 @@ const taskStoreSlice = createSlice({
       .addCase(createANewTask.fulfilled, (state, action) => {
         state.addTaskLoading = false;
         state.addTaskDone = true;
-        state.tasks.push(action.payload);
         state.addTaskError = null;
       })
       .addCase(createANewTask.rejected, (state, action) => {
@@ -77,8 +70,6 @@ const taskStoreSlice = createSlice({
   },
 });
 
-export const {
-  addNewTask,
-} = taskStoreSlice.actions;
+export const { addNewTask } = taskStoreSlice.actions;
 
 export const taskStoreReducer = taskStoreSlice.reducer;
