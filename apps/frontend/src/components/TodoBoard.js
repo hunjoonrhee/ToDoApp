@@ -1,13 +1,20 @@
-import React from "react";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import TodoItem from './TodoItem';
 
-const TodoBoard = () => {
+function TodoBoard() {
+  const { tasks } = useSelector((store) => store.taskStore);
   return (
     <div>
-      <h2>Todo List</h2>
-      {/* <TodoItem/> will be here once we get the todoList */}
-      <h2>There is no Item to show</h2>
+      <h2>To-Do List</h2>
+      { tasks
+        ? <TodoItem tasks={tasks.tasks} />
+        : (
+          <h5> There is no Tasks to show</h5>
+        )}
+
     </div>
   );
-};
+}
 
 export default TodoBoard;

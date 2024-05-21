@@ -1,9 +1,9 @@
-import axios from "axios";
+import axios from 'axios';
 
 const api = axios.create({
-  baseURL: `${process.env.REACT_APP_BACKEND_URL}/api`,
+  baseURL: `${process.env.REACT_APP_BACKEND_URL}`,
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
 });
 /**
@@ -11,24 +11,24 @@ const api = axios.create({
  */
 api.interceptors.request.use(
   (request) => {
-    console.log("Starting Request", request);
+    console.log('Starting Request', request);
     return request;
   },
-  function (error) {
-    console.log("REQUEST ERROR", error);
-  }
+  (error) => {
+    console.log('REQUEST ERROR', error);
+  },
 );
 
 api.interceptors.response.use(
   (response) => {
-    console.log("Response:", response);
+    console.log('Response:', response);
     return response;
   },
-  function (error) {
+  (error) => {
     error = error.response.data;
-    console.log("RESPONSE ERROR", error);
+    console.log('RESPONSE ERROR', error);
     return Promise.reject(error);
-  }
+  },
 );
 
 export default api;

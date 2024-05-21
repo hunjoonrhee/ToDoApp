@@ -1,13 +1,21 @@
-import "./App.css";
-import "bootstrap/dist/css/bootstrap.min.css";
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-import TodoBoard from "./components/TodoBoard";
-
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Container from "react-bootstrap/Container";
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import TodoBoard from './components/TodoBoard';
+import { getAllTasks } from './components/context/taskStore/taskStoreSlice';
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllTasks());
+  }, [dispatch]);
+
   return (
     <Container>
       <Row className="add-item-row">

@@ -3,9 +3,11 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const taskRouter = require('./routes/task');
 const tasksRouter = require('./routes/tasks');
+const cors = require('cors')
 
 const app = express();
 app.use(bodyParser.json());
+app.use(cors());
 const mongoURI = 'mongodb://localhost:27017/todoApp';
 
 mongoose.connect(mongoURI).then(() => {
