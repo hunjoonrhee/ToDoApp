@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
-import { createTaskThunk, getAllTasksThunk } from './taskStoreThunk';
+import { createTaskThunk, deleteTaskFromServerThunk, getAllTasksThunk } from './taskStoreThunk';
 import { messages } from './taskStore.messages';
 
 export const initialState = {
@@ -11,10 +11,14 @@ export const initialState = {
   getTasksLoading: false,
   getTasksDone: false,
   getTasksError: null,
+  deleteTaskLoading: false,
+  deleteTaskDone: false,
+  deleteTaskError: null,
 };
 
 export const getAllTasks = createAsyncThunk('tasks/getAllTasks', getAllTasksThunk);
 export const createANewTask = createAsyncThunk('tasks/createANewTask', createTaskThunk);
+export const deleteTaskFromServer = createAsyncThunk('tasks/deleteTask', deleteTaskFromServerThunk);
 
 const taskStoreSlice = createSlice({
   name: 'taskStore',
@@ -26,6 +30,15 @@ const taskStoreSlice = createSlice({
         state.tasks = JSON.parse(storedTasks);
       }
       state.tasks = [...state.tasks, action.payload];
+      localStorage.setItem('tasks', JSON.stringify(state.tasks));
+    },
+    deleteTask(state, action) {
+      const storedTasks = localStorage.getItem('tasks');
+      if (storedTasks) {
+        state.tasks = JSON.parse(storedTasks);
+      }
+
+      state.tasks = state.tasks.filter((task) => task._id !== action.payload);
       localStorage.setItem('tasks', JSON.stringify(state.tasks));
     },
   },
@@ -66,10 +79,27 @@ const taskStoreSlice = createSlice({
         toast.error(action.payload, {
           toastId: messages.POST_TASK_ERROR.id,
         });
+      })
+      .addCase(deleteTaskFromServer.pending, (state) => {
+        state.deleteTaskLoading = true;
+        state.deleteTaskDone = false;
+        state.deleteTaskError = null;
+      })
+      .addCase(deleteTaskFromServer.fulfilled, (state, action) => {
+        state.deleteTaskLoading = false;
+        state.deleteTaskDone = true;
+        state.deleteTaskError = null;
+      })
+      .addCase(deleteTaskFromServer.rejected, (state, action) => {
+        state.deleteTaskLoading = false;
+        state.deleteTaskDone = false;
+        toast.error(action.payload, {
+          toastId: messages.DELETE_TASK_ERROR.id,
+        });
       });
   },
 });
 
-export const { addNewTask } = taskStoreSlice.actions;
+export const { addNewTask, deleteTask } = taskStoreSlice.actions;
 
 export const taskStoreReducer = taskStoreSlice.reducer;

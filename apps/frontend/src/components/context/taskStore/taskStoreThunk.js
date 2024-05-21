@@ -1,5 +1,5 @@
 import { messages } from './taskStore.messages';
-import { addNewTask, getAllTasks } from './taskStoreSlice';
+import { addNewTask, deleteTask, getAllTasks } from './taskStoreSlice';
 
 export const getAllTasksThunk = async () => {
   try {
@@ -39,6 +39,23 @@ export const createTaskThunk = async (taskData, { dispatch }) => {
     dispatch(addNewTask(newTask));
 
     return newTask;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const deleteTaskFromServerThunk = async (taskId, { dispatch }) => {
+  try {
+    const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/task/${taskId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!res.ok) throw new Error(messages.DELETE_TASK_ERROR.message);
+
+    dispatch(deleteTask(taskId));
   } catch (err) {
     throw err;
   }
