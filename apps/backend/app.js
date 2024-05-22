@@ -7,9 +7,11 @@ const cors = require('cors');
 
 const app = express();
 
-require('dotenv').config();
+const dotenv = require('dotenv');
 app.use(bodyParser.json());
 app.use(cors());
+dotenv.config();
+
 const MONGODB_URI_PROD = process.env.MONGODB_URI_PROD;
 mongoose
   .connect(MONGODB_URI_PROD)
