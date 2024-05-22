@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
-import { createTaskThunk, deleteTaskFromServerThunk, getAllTasksThunk } from './taskStoreThunk';
+import { createTaskThunk, deleteTaskFromServerThunk, editTaskThunk, getAllTasksThunk } from './taskStoreThunk';
 import { messages } from './taskStore.messages';
 
 export const initialState = {
@@ -14,16 +14,24 @@ export const initialState = {
   deleteTaskLoading: false,
   deleteTaskDone: false,
   deleteTaskError: null,
+  editTaskLoading: false,
+  editTaskDone: false,
+  editTaskError: null,
+  isTaskCompleted: false,
 };
 
 export const getAllTasks = createAsyncThunk('tasks/getAllTasks', getAllTasksThunk);
 export const createANewTask = createAsyncThunk('tasks/createANewTask', createTaskThunk);
 export const deleteTaskFromServer = createAsyncThunk('tasks/deleteTask', deleteTaskFromServerThunk);
+export const editTask = createAsyncThunk('tasks/editTask', editTaskThunk);
 
 const taskStoreSlice = createSlice({
   name: 'taskStore',
   initialState,
   reducers: {
+    setIsTaskCompleted: (state, action) => {
+      state.isTaskCompleted = action.payload;
+    },
     addNewTask(state, action) {
       const storedTasks = localStorage.getItem('tasks');
       if (storedTasks) {
@@ -39,6 +47,18 @@ const taskStoreSlice = createSlice({
       }
 
       state.tasks = state.tasks.filter((task) => task._id !== action.payload);
+      localStorage.setItem('tasks', JSON.stringify(state.tasks));
+    },
+    editATask(state, action) {
+      const storedTasks = localStorage.getItem('tasks');
+      if (storedTasks) {
+        state.tasks = JSON.parse(storedTasks);
+      }
+      state.tasks = state.tasks.map((task) => (task._id === action.payload._id ? action.payload : task));
+      // const taskToBeEdited = state.tasks.find((task) => task._id === action.payload._id);
+      // console.log(taskToBeEdited);
+
+      // state.tasks = state.tasks.filter((task) => task._id !== action.payload);
       localStorage.setItem('tasks', JSON.stringify(state.tasks));
     },
   },
@@ -96,10 +116,27 @@ const taskStoreSlice = createSlice({
         toast.error(action.payload, {
           toastId: messages.DELETE_TASK_ERROR.id,
         });
+      })
+      .addCase(editTask.pending, (state) => {
+        state.editTaskLoading = true;
+        state.editTaskDone = false;
+        state.editTaskError = null;
+      })
+      .addCase(editTask.fulfilled, (state, action) => {
+        state.editTaskLoading = false;
+        state.editTaskDone = true;
+        state.editTaskError = null;
+      })
+      .addCase(editTask.rejected, (state, action) => {
+        state.editTaskLoading = false;
+        state.editTaskDone = false;
+        toast.error(action.payload, {
+          toastId: messages.EDIT_TASK_ERROR.id,
+        });
       });
   },
 });
 
-export const { addNewTask, deleteTask } = taskStoreSlice.actions;
+export const { addNewTask, deleteTask, editATask, setIsTaskCompleted } = taskStoreSlice.actions;
 
 export const taskStoreReducer = taskStoreSlice.reducer;

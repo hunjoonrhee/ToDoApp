@@ -1,5 +1,5 @@
 import { messages } from './taskStore.messages';
-import { addNewTask, deleteTask, getAllTasks } from './taskStoreSlice';
+import { addNewTask, deleteTask, editATask, getAllTasks } from './taskStoreSlice';
 
 export const getAllTasksThunk = async () => {
   try {
@@ -35,7 +35,6 @@ export const createTaskThunk = async (taskData, { dispatch }) => {
 
     if (!res.ok) throw new Error(messages.POST_TASK_ERROR.message);
     const newTask = await res.json();
-    console.log(newTask);
     dispatch(addNewTask(newTask));
 
     return newTask;
@@ -56,6 +55,27 @@ export const deleteTaskFromServerThunk = async (taskId, { dispatch }) => {
     if (!res.ok) throw new Error(messages.DELETE_TASK_ERROR.message);
 
     dispatch(deleteTask(taskId));
+    dispatch(getAllTasks());
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const editTaskThunk = async (task, { dispatch }) => {
+  try {
+    const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/task/${task._id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(task),
+    });
+
+    if (!res.ok) throw new Error(messages.EDIT_TASK_ERROR.message);
+
+    const editedTask = await res.json();
+
+    dispatch(editATask(editedTask));
   } catch (err) {
     throw err;
   }

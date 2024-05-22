@@ -13,4 +13,8 @@ export const messages = defineMessages({
     id: 'deleteTaskError',
     message: 'Error at deleting a task!',
   },
+  EDIT_TASK_ERROR: {
+    id: 'editTaskError',
+    message: 'Error at editing a task!',
+  },
 });

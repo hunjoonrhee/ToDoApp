@@ -4,13 +4,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import TodoBoard from './components/TodoBoard';
 import { createANewTask, getAllTasks } from './components/context/taskStore/taskStoreSlice';
 
 function App() {
   const dispatch = useDispatch();
+  const { tasks } = useSelector((store) => store.taskStore);
+
   const [taskData, setTaskData] = useState({
     task: '',
     isCompleted: false,
@@ -54,7 +56,7 @@ function App() {
         </Col>
       </Row>
 
-      <TodoBoard />
+      <TodoBoard tasks={tasks} />
     </Container>
   );
 }
