@@ -7,14 +7,9 @@ const cors = require('cors');
 
 const app = express();
 
-const corsOptions = {
-  origin: 'https://master--eloquent-panda-515943.netlify.app',
-  optionsSuccessStatus: 200,
-};
-
 const dotenv = require('dotenv');
 app.use(bodyParser.json());
-app.use(cors(corsOptions));
+app.use(cors());
 dotenv.config();
 
 const MONGODB_URI_PROD = process.env.MONGODB_URI_PROD;
