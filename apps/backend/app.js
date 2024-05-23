@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const taskRouter = require('./routes/task');
 const tasksRouter = require('./routes/tasks');
+const userRouter = require('./routes/user');
 const cors = require('cors');
 
 const app = express();
@@ -28,6 +29,7 @@ app.get('/', (req, res) => {
 
 app.use('/task', taskRouter);
 app.use('/tasks', tasksRouter);
+app.use('/user', userRouter);
 
 app.listen(process.env.PORT || 5001, () => {
   console.log('server started and listening port 5001');
