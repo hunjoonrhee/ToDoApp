@@ -12,9 +12,9 @@ app.use(bodyParser.json());
 app.use(cors());
 dotenv.config();
 
-const MONGODB_URI_PROD = process.env.MONGODB_URI_PROD;
+const MONGODB_URI = process.env.NODE_ENV === 'production' ? process.env.MONGODB_URI_PROD : process.env.MONGODB_URI_DEV;
 mongoose
-  .connect(MONGODB_URI_PROD)
+  .connect(MONGODB_URI)
   .then(() => {
     console.log('mongoose connected');
   })
