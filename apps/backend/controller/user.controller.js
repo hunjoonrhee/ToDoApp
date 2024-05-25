@@ -30,7 +30,7 @@ userController.loginWithEmail = async (req, res) => {
   }
   const isMatched = await bcrpyt.compareSync(password, user.password);
   if (!isMatched) {
-    return res.status(403).send('wrong password');
+    return res.status(403).json({ message: 'wrong password' });
   }
   try {
     const token = user.generateToken();
@@ -39,6 +39,11 @@ userController.loginWithEmail = async (req, res) => {
     console.error(err);
     res.status(400).json({ message: 'Error by logging in', err });
   }
+};
+
+userController.logout = async (req, res) => {
+  req.session.destroy();
+  res.send('ok');
 };
 
 module.exports = userController;

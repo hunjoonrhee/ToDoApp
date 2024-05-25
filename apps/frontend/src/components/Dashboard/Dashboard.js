@@ -5,14 +5,19 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { createANewTask, getAllTasks } from '../context/taskStore/taskStoreSlice';
 import TodoBoard from '../TodoBoard';
+import { Button } from 'react-bootstrap';
+import { logOutUser } from '../context/userStore/userStoreSlice';
+import { useNavigate } from 'react-router-dom';
 
 function Dashboard() {
   const dispatch = useDispatch();
   const { tasks } = useSelector((store) => store.taskStore);
+  const { me, logOutUserError } = useSelector((store) => store.userStore);
+  const navigate = useNavigate();
 
   const [taskData, setTaskData] = useState({
     task: '',
@@ -36,8 +41,31 @@ function Dashboard() {
     });
   };
 
+  const handleLogOut = (e) => {
+    e.preventDefault();
+    dispatch(logOutUser());
+    if (!logOutUserError) {
+      navigate('/');
+    }
+  };
+
   return (
     <Container>
+      <div
+        style={{
+          marginTop: '20px',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}>
+        <div style={{ flexGrow: 1 }}>
+          <h1>Hello {me.username}</h1>
+        </div>
+        <div style={{ marginLeft: 'auto' }}>
+          <Button onClick={handleLogOut}>Log Out</Button>
+        </div>
+      </div>
+
       <Row className="add-item-row">
         <Col xs={12} sm={10}>
           <input
@@ -46,7 +74,10 @@ function Dashboard() {
             className="input-box"
             value={taskData.task}
             onChange={(e) => {
-              setTaskData({ ...taskData, task: e.target.value });
+              setTaskData({
+                ...taskData,
+                task: e.target.value,
+              });
             }}
           />
         </Col>

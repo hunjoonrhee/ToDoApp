@@ -6,6 +6,7 @@ import React from 'react';
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import Dashboard from './components/Dashboard/Dashboard';
+import { useSelector } from 'react-redux';
 
 function App() {
   return (
@@ -13,7 +14,6 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/dashboard" element={<Dashboard />} />
-
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
       </Routes>
