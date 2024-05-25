@@ -1,9 +1,12 @@
 import { messages } from './taskStore.messages';
 import { addNewTask, deleteTask, editATask, getAllTasks } from './taskStoreSlice';
 
+const backendURL =
+  process.env.NODE_ENV === 'production' ? process.env.REACT_APP_BACKEND_PROXY : process.env.REACT_APP_BACKEND_URL;
+
 export const getAllTasksThunk = async () => {
   try {
-    const res = await fetch(`${process.env.REACT_APP_BACKEND_PROXY}/tasks`, {
+    const res = await fetch(`${backendURL}/tasks`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -25,7 +28,7 @@ export const getAllTasksThunk = async () => {
 
 export const createTaskThunk = async (taskData, { dispatch }) => {
   try {
-    const res = await fetch(`${process.env.REACT_APP_BACKEND_PROXY}/task`, {
+    const res = await fetch(`${backendURL}/task`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -45,7 +48,7 @@ export const createTaskThunk = async (taskData, { dispatch }) => {
 
 export const deleteTaskFromServerThunk = async (taskId, { dispatch }) => {
   try {
-    const res = await fetch(`${process.env.REACT_APP_BACKEND_PROXY}/task/${taskId}`, {
+    const res = await fetch(`${backendURL}/task/${taskId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -63,7 +66,7 @@ export const deleteTaskFromServerThunk = async (taskId, { dispatch }) => {
 
 export const editTaskThunk = async (task, { dispatch }) => {
   try {
-    const res = await fetch(`${process.env.REACT_APP_BACKEND_PROXY}/task/${task._id}`, {
+    const res = await fetch(`${backendURL}/task/${task._id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

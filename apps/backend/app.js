@@ -3,18 +3,28 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const taskRouter = require('./routes/task');
 const tasksRouter = require('./routes/tasks');
+const userRouter = require('./routes/user');
 const cors = require('cors');
 
 const app = express();
 
 const dotenv = require('dotenv');
+const session = require('express-session');
 app.use(bodyParser.json());
 app.use(cors());
 dotenv.config();
 
-const MONGODB_URI_PROD = process.env.MONGODB_URI_PROD;
+app.use(
+  session({
+    saveUninitialized: false,
+    resave: false,
+    secret: process.env.COOKIE_SECRET,
+  }),
+);
+
+const MONGODB_URI = process.env.NODE_ENV === 'production' ? process.env.MONGODB_URI_PROD : process.env.MONGODB_URI_DEV;
 mongoose
-  .connect(MONGODB_URI_PROD)
+  .connect(MONGODB_URI)
   .then(() => {
     console.log('mongoose connected');
   })
@@ -28,6 +38,7 @@ app.get('/', (req, res) => {
 
 app.use('/task', taskRouter);
 app.use('/tasks', tasksRouter);
+app.use('/user', userRouter);
 
 app.listen(process.env.PORT || 5001, () => {
   console.log('server started and listening port 5001');
