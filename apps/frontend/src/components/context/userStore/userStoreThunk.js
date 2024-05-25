@@ -1,10 +1,9 @@
 import { messages } from './userStore.messages';
-import { addNewTask, deleteTask, editATask, getAllTasks } from './userStoreSlice';
 
 const backendURL =
   process.env.NODE_ENV === 'production' ? process.env.REACT_APP_BACKEND_PROXY : process.env.REACT_APP_BACKEND_URL;
 
-export const createANewUserThunk = async (userData, { dispatch }) => {
+export const createANewUserThunk = async (userData, { rejectedWithValue }) => {
   try {
     const res = await fetch(`${backendURL}/user`, {
       method: 'POST',
@@ -14,7 +13,13 @@ export const createANewUserThunk = async (userData, { dispatch }) => {
       body: JSON.stringify(userData),
     });
 
-    if (!res.ok) throw new Error(messages.REGISTER_USER_ERROR.message);
+    const result = await res.json();
+    console.log(result);
+    if (!res.ok) {
+      return rejectedWithValue(messages.REGISTER_USER_ERROR.message);
+    }
+
+    return result;
   } catch (err) {
     throw err;
   }

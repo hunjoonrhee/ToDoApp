@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 import { Link, useNavigate } from 'react-router-dom';
-import { logInUser, userStoreReducer } from '../components/context/userStore/userStoreSlice';
+import { logInUser } from '../components/context/userStore/userStoreSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { messages } from '../components/context/userStore/userStore.messages';
 import { toast, ToastContainer } from 'react-toastify';
@@ -12,9 +12,6 @@ import 'react-toastify/dist/ReactToastify.css';
 const LoginPage = () => {
   const dispatch = useDispatch();
   const { logInUserError, logInUserDone } = useSelector((store) => store.userStore);
-  console.log('LOGINERROR', logInUserError);
-  console.log('logInUserDone', logInUserDone);
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();

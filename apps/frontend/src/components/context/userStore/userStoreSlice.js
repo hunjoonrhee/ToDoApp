@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import { createANewUserThunk, logInUserThunk, logOutUserThunk } from './userStoreThunk';
 import { messages } from './userStore.messages';
@@ -78,6 +78,7 @@ const userStoreSlice = createSlice({
       .addCase(createANewUser.rejected, (state, action) => {
         state.registerLoading = false;
         state.registerDone = false;
+        state.registerError = action.payload;
         toast.error(action.payload, {
           toastId: messages.REGISTER_USER_ERROR.id,
         });
