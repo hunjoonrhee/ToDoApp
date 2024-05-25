@@ -1,6 +1,5 @@
 const User = require('../models/user');
-const bcrpyt = require('bcrypt');
-
+const bcrypt = require('bcryptjs');
 const userController = {};
 
 userController.createUser = async (req, res) => {
@@ -9,7 +8,7 @@ userController.createUser = async (req, res) => {
   if (exUser) {
     return res.status(403).send('already used email.');
   }
-  const hashPassword = await bcrpyt.hash(password, 13);
+  const hashPassword = await bcrypt.hash(password, 13);
 
   const newUser = new User({ email, password: hashPassword, username });
   try {
@@ -28,7 +27,7 @@ userController.loginWithEmail = async (req, res) => {
   if (!user) {
     return res.status(403).send('user email does not exist!');
   }
-  const isMatched = await bcrpyt.compareSync(password, user.password);
+  const isMatched = await bcrypt.compareSync(password, user.password);
   if (!isMatched) {
     return res.status(403).json({ message: 'wrong password' });
   }
