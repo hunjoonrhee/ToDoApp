@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import { createTaskThunk, deleteTaskFromServerThunk, editTaskThunk, getAllTasksThunk } from './taskStoreThunk';
 import { messages } from './taskStore.messages';

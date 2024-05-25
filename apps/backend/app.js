@@ -9,9 +9,18 @@ const cors = require('cors');
 const app = express();
 
 const dotenv = require('dotenv');
+const session = require('express-session');
 app.use(bodyParser.json());
 app.use(cors());
 dotenv.config();
+
+app.use(
+  session({
+    saveUninitialized: false,
+    resave: false,
+    secret: process.env.COOKIE_SECRET,
+  }),
+);
 
 const MONGODB_URI = process.env.NODE_ENV === 'production' ? process.env.MONGODB_URI_PROD : process.env.MONGODB_URI_DEV;
 mongoose
