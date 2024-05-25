@@ -19,6 +19,10 @@ function Dashboard() {
   const { me, logOutUserError } = useSelector((store) => store.userStore);
   const navigate = useNavigate();
 
+  if (!me) {
+    return;
+  }
+
   const [taskData, setTaskData] = useState({
     task: '',
     isCompleted: false,

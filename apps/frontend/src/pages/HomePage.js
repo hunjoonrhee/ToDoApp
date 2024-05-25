@@ -14,11 +14,6 @@ function HomePage() {
       </div>
       <div className="links">
         <Button variant="outline-primary">
-          <Link to="/dashboard" style={{ textDecoration: 'none' }}>
-            Dashboard
-          </Link>
-        </Button>
-        <Button variant="outline-primary">
           <Link to="/login" style={{ textDecoration: 'none' }}>
             Log In
           </Link>
