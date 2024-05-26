@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import { useDispatch, useSelector } from 'react-redux';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { createANewTask, getAllTasks } from '../context/taskStore/taskStoreSlice';
 import TodoBoard from '../TodoBoard';
@@ -16,20 +16,24 @@ import { useNavigate } from 'react-router-dom';
 function Dashboard() {
   const dispatch = useDispatch();
   const { tasks } = useSelector((store) => store.taskStore);
-  const { me, logOutUserError } = useSelector((store) => store.userStore);
+  const { me, logOutUserError, logOutUserDone } = useSelector((store) => store.userStore);
   const navigate = useNavigate();
+
+  function initializeEffects() {
+    useEffect(() => {
+      dispatch(getAllTasks());
+    }, [dispatch]);
+  }
 
   if (!me) {
     return;
   }
+  initializeEffects();
 
   const [taskData, setTaskData] = useState({
     task: '',
     isCompleted: false,
   });
-  useEffect(() => {
-    dispatch(getAllTasks());
-  }, [dispatch]);
 
   const handleOnClick = (e) => {
     e.preventDefault();
@@ -48,9 +52,7 @@ function Dashboard() {
   const handleLogOut = (e) => {
     e.preventDefault();
     dispatch(logOutUser());
-    if (!logOutUserError) {
-      navigate('/');
-    }
+    navigate('/');
   };
 
   return (
