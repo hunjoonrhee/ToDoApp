@@ -5,30 +5,30 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { createANewTask, getAllTasks } from '../context/taskStore/taskStoreSlice';
 import TodoBoard from '../TodoBoard';
 import { Button } from 'react-bootstrap';
 import { logOutUser } from '../context/userStore/userStoreSlice';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 function Dashboard() {
   const dispatch = useDispatch();
   const { tasks } = useSelector((store) => store.taskStore);
-  const { me, logOutUserError, logOutUserDone } = useSelector((store) => store.userStore);
+  const { me } = useSelector((store) => store.userStore);
   const navigate = useNavigate();
 
-  function initializeEffects() {
-    useEffect(() => {
-      dispatch(getAllTasks());
-    }, [dispatch]);
-  }
+  useEffect(() => {
+    dispatch(getAllTasks());
+  }, [dispatch]);
 
-  if (!me) {
-    return;
-  }
-  initializeEffects();
+  useEffect(() => {
+    if (me === null) {
+      navigate('/');
+    }
+  }, [me, navigate]);
 
   const [taskData, setTaskData] = useState({
     task: '',
@@ -49,11 +49,9 @@ function Dashboard() {
     });
   };
 
-  const handleLogOut = (e) => {
-    e.preventDefault();
+  const handleLogOut = useCallback(() => {
     dispatch(logOutUser());
-    navigate('/');
-  };
+  }, []);
 
   return (
     <Container>
@@ -65,7 +63,7 @@ function Dashboard() {
           alignItems: 'center',
         }}>
         <div style={{ flexGrow: 1 }}>
-          <h1>Hello {me.username}</h1>
+          <h1>Hello {me?.username}</h1>
         </div>
         <div style={{ marginLeft: 'auto' }}>
           <Button onClick={handleLogOut}>Log Out</Button>
@@ -99,4 +97,7 @@ function Dashboard() {
   );
 }
 
+Dashboard.propTypes = {
+  me: PropTypes.object,
+};
 export default Dashboard;

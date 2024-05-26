@@ -1,7 +1,7 @@
 import { messages } from './userStore.messages';
 
 const backendURL =
-  process.env.NODE_ENV === 'production' ? process.env.REACT_APP_BACKEND_PROXY : process.env.REACT_APP_BACKEND_URL;
+  process.env.NODE_ENV === 'production' ? process.env.REACT_APP_BACKEND_PROXY : process.env.REACT_APP_BACKEND_URL_LOCAL;
 
 export const createANewUserThunk = async (userData, { rejectedWithValue }) => {
   try {
@@ -14,7 +14,6 @@ export const createANewUserThunk = async (userData, { rejectedWithValue }) => {
     });
 
     const result = await res.json();
-    console.log(result);
     if (!res.ok) {
       return rejectedWithValue(messages.REGISTER_USER_ERROR.message);
     }
@@ -45,7 +44,6 @@ export const logInUserThunk = async (userData, { rejectWithValue }) => {
       throw new Error(messages.LOGIN_USER_ERROR.message);
     }
     sessionStorage.setItem('token', result.token);
-
     return result;
   } catch (err) {
     throw err;

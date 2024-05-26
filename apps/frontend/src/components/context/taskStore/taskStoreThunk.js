@@ -2,7 +2,7 @@ import { messages } from './taskStore.messages';
 import { addNewTask, deleteTask, editATask, getAllTasks } from './taskStoreSlice';
 
 const backendURL =
-  process.env.NODE_ENV === 'production' ? process.env.REACT_APP_BACKEND_PROXY : process.env.REACT_APP_BACKEND_URL;
+  process.env.NODE_ENV === 'production' ? process.env.REACT_APP_BACKEND_PROXY : process.env.REACT_APP_BACKEND_URL_LOCAL;
 
 export const getAllTasksThunk = async () => {
   try {

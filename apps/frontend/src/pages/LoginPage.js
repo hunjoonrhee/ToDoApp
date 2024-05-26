@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const LoginPage = () => {
   const dispatch = useDispatch();
-  const { logInUserError, logInUserDone } = useSelector((store) => store.userStore);
+  const { me, logInUserError, logInUserDone } = useSelector((store) => store.userStore);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -25,10 +25,10 @@ const LoginPage = () => {
   }, [logInUserError]);
 
   useEffect(() => {
-    if (logInUserDone && !logInUserError) {
+    if (logInUserDone && me) {
       navigate('/dashboard');
     }
-  }, [logInUserDone, logInUserError, navigate]);
+  }, [logInUserDone, me, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
