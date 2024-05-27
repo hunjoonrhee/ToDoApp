@@ -6,7 +6,6 @@ import React from 'react';
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import Dashboard from './components/Dashboard/Dashboard';
-import { useSelector } from 'react-redux';
 
 function App() {
   return (

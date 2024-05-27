@@ -4,7 +4,8 @@ const taskController = {};
 
 taskController.createTask = async (req, res) => {
   const { task, isCompleted } = req.body;
-  const newTask = new Task({ task, isCompleted });
+  const userId = req.userId;
+  const newTask = new Task({ task, isCompleted, author: userId });
   try {
     await newTask.save();
     res.status(201).json(newTask);
@@ -32,6 +33,21 @@ taskController.getTaskById = async (req, res) => {
       return res.status(404).send('Not existing Task!');
     }
     res.status(200).json(task);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error by getting task', err });
+  }
+};
+
+taskController.getAllTasksByUser = async (req, res) => {
+  try {
+    const id = req.params.userId;
+
+    const tasks = await Task.find({ author: id }).select('-__v');
+    if (!tasks) {
+      return res.status(404).send('Not existing Task!');
+    }
+    res.status(200).json(tasks);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Error by getting task', err });

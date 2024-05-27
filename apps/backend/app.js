@@ -11,7 +11,12 @@ const app = express();
 const dotenv = require('dotenv');
 const session = require('express-session');
 app.use(bodyParser.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: ['http://localhost:3000', 'https://todaystasks-react.netlify.app'],
+    credentials: true,
+  }),
+);
 dotenv.config();
 
 app.use(
@@ -19,10 +24,12 @@ app.use(
     saveUninitialized: false,
     resave: false,
     secret: process.env.COOKIE_SECRET,
+    cookie: { secure: true },
   }),
 );
 
 const MONGODB_URI = process.env.NODE_ENV === 'production' ? process.env.MONGODB_URI_PROD : process.env.MONGODB_URI_DEV;
+console.log(MONGODB_URI);
 mongoose
   .connect(MONGODB_URI)
   .then(() => {

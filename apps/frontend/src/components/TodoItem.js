@@ -1,22 +1,30 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import { Button, Col, Row } from 'react-bootstrap';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteTaskFromServer, editTask, setIsTaskCompleted } from './context/taskStore/taskStoreSlice';
+import { deleteTaskFromServer, editTask } from './context/taskStore/taskStoreSlice';
 
 function TodoItem({ task }) {
-  const { isTaskCompleted } = useSelector((store) => store.taskStore);
+  const { me } = useSelector((store) => store.userStore);
 
   const dispatch = useDispatch();
   const handleOnDelete = (id) => {
-    dispatch(deleteTaskFromServer(id));
+    const dataForDelete = {
+      taskId: id,
+      userId: me._id,
+    };
+    dispatch(deleteTaskFromServer(dataForDelete));
   };
 
   let editData = task;
   const handleOnEdit = useCallback(() => {
     editData = { ...task, isCompleted: !task.isCompleted };
-    dispatch(editTask(editData));
+    const dataForEdit = {
+      editData: editData,
+      userId: me._id,
+    };
+    dispatch(editTask(dataForEdit));
   }, [dispatch, editData.isCompleted]);
   if (editData) {
     task = editData;
@@ -34,12 +42,6 @@ function TodoItem({ task }) {
             <Button variant="outline-danger" onClick={() => handleOnDelete(task._id)} style={{ marginRight: '10px' }}>
               Delete
             </Button>
-            {/* <button className="button-delete" onClick={() => handleOnDelete(task._id)}> */}
-            {/*   삭제 */}
-            {/* </button> */}
-            {/* <button className="button-delete" onClick={handleOnEdit} style={{ backgroundColor }}> */}
-            {/*   끝남 */}
-            {/* </button> */}
             <Button variant={variant} onClick={handleOnEdit} style={{ marginRight: '10px' }}>
               Done
             </Button>

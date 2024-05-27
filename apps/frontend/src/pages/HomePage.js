@@ -2,11 +2,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './Homepage.css';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 
 function HomePage() {
-  const { me } = useSelector((state) => state.userStore);
-  console.log(me);
   return (
     <container>
       <div className="title">
@@ -22,5 +19,4 @@ function HomePage() {
     </container>
   );
 }
-
 export default HomePage;
