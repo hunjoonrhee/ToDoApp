@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const { mongoose, Schema } = require('mongoose');
 
 const taskSchema = new mongoose.Schema(
   {
@@ -10,6 +10,7 @@ const taskSchema = new mongoose.Schema(
       type: Boolean,
       required: true,
     },
+    author: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
   },
   { timestamps: true },
 );

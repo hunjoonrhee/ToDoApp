@@ -7,28 +7,28 @@ import Container from 'react-bootstrap/Container';
 import { useDispatch, useSelector } from 'react-redux';
 import { useCallback, useEffect, useState } from 'react';
 
-import { createANewTask, getAllTasks } from '../context/taskStore/taskStoreSlice';
+import { createANewTask, getAllTasksByUser } from '../context/taskStore/taskStoreSlice';
 import TodoBoard from '../TodoBoard';
 import { Button } from 'react-bootstrap';
-import { logOutUser } from '../context/userStore/userStoreSlice';
+import { loadUser, logOutUser } from '../context/userStore/userStoreSlice';
 import { Navigate, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 function Dashboard() {
   const dispatch = useDispatch();
-  const { tasks } = useSelector((store) => store.taskStore);
+  const { tasksOfUser } = useSelector((store) => store.taskStore);
   const { me } = useSelector((store) => store.userStore);
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getAllTasks());
-  }, [dispatch]);
+    dispatch(loadUser());
+  }, []);
 
   useEffect(() => {
-    if (me === null) {
-      navigate('/');
+    if (me) {
+      dispatch(getAllTasksByUser(me._id));
     }
-  }, [me, navigate]);
+  }, [dispatch, me]);
 
   const [taskData, setTaskData] = useState({
     task: '',
@@ -42,7 +42,14 @@ function Dashboard() {
       return null;
     }
     taskData.task.trim();
-    dispatch(createANewTask(taskData));
+
+    console.log(me._id);
+
+    const newTaskData = {
+      taskData: taskData,
+      userId: me._id,
+    };
+    dispatch(createANewTask(newTaskData));
     setTaskData({
       task: '',
       isCompleted: false,
@@ -51,6 +58,7 @@ function Dashboard() {
 
   const handleLogOut = useCallback(() => {
     dispatch(logOutUser());
+    navigate('/');
   }, []);
 
   return (
@@ -92,7 +100,7 @@ function Dashboard() {
         </Col>
       </Row>
 
-      <TodoBoard tasks={tasks} />
+      <TodoBoard tasks={tasksOfUser} />
     </Container>
   );
 }

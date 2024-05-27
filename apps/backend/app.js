@@ -11,7 +11,12 @@ const app = express();
 const dotenv = require('dotenv');
 const session = require('express-session');
 app.use(bodyParser.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: ['http://localhost:3000', 'https://todaystasks-react.netlify.app'],
+    credentials: true,
+  }),
+);
 dotenv.config();
 
 app.use(

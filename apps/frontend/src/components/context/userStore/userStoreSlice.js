@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
-import { createANewUserThunk, logInUserThunk, logOutUserThunk } from './userStoreThunk';
+import { createANewUserThunk, loadUserThunk, logInUserThunk, logOutUserThunk } from './userStoreThunk';
 import { messages } from './userStore.messages';
 
 export const initialState = {
@@ -14,12 +14,17 @@ export const initialState = {
   registerLoading: false,
   registerDone: false,
   registerError: null,
+  loadUserLoading: false,
+  loadUserDone: false,
+  loadUserError: null,
 };
 
 export const logInUser = createAsyncThunk('user/logInUser', logInUserThunk);
 export const logOutUser = createAsyncThunk('user/logOutUser', logOutUserThunk);
 
 export const createANewUser = createAsyncThunk('user/createANewUser', createANewUserThunk);
+
+export const loadUser = createAsyncThunk('user/loadUser', loadUserThunk);
 
 const userStoreSlice = createSlice({
   name: 'userStore',
@@ -28,6 +33,22 @@ const userStoreSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
+      .addCase(loadUser.pending, (state) => {
+        state.loadUserLoading = true;
+        state.loadUserDone = false;
+        state.loadUserError = null;
+      })
+      .addCase(loadUser.fulfilled, (state, action) => {
+        state.loadUserLoading = false;
+        state.loadUserDone = true;
+        state.me = action.payload;
+        state.loadUserError = null;
+      })
+      .addCase(loadUser.rejected, (state, action) => {
+        state.loadUserLoading = false;
+        state.loadUserDone = false;
+        state.loadUserError = action.payload;
+      })
       .addCase(logInUser.pending, (state) => {
         state.logInUserLoading = true;
         state.logInUserDone = false;

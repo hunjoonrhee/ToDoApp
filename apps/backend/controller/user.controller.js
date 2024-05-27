@@ -20,6 +20,18 @@ userController.createUser = async (req, res) => {
   }
 };
 
+userController.getUser = async (req, res) => {
+  try {
+    if (req.userId) {
+      const userId = req.userId;
+      const user = await User.findById(userId);
+      res.status(200).json(user);
+    }
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 userController.loginWithEmail = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email: email }, '-__v -createdAt -updatedAt');

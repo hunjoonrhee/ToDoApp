@@ -32,6 +32,7 @@ export const logInUserThunk = async (userData, { rejectWithValue }) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(userData),
+      credentials: 'include',
     });
 
     const result = await res.json();
@@ -64,5 +65,23 @@ export const logOutUserThunk = async () => {
     sessionStorage.removeItem('token');
   } catch (err) {
     throw err;
+  }
+};
+
+export const loadUserThunk = async () => {
+  const token = sessionStorage.getItem('token');
+  try {
+    const res = await fetch(`${backendURL}/user/me`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+      credentials: 'include',
+    });
+
+    return await res.json();
+  } catch (err) {
+    console.error(err);
   }
 };
