@@ -4,6 +4,8 @@ import { Button, Col, Row } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteTaskFromServer, editTask } from './context/taskStore/taskStoreSlice';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import Avatar from '@mui/material/Avatar';
 
 function TodoItem({ task }) {
   const { me } = useSelector((store) => store.userStore);
@@ -25,16 +27,24 @@ function TodoItem({ task }) {
   if (editData) {
     task = editData;
   }
+  function stringAvatar(name) {
+    if (name.split(' ').length > 1) {
+      return `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`;
+    } else {
+      return name[0].toUpperCase() + name[1].toUpperCase();
+    }
+  }
 
   const variant = !task.isCompleted ? 'outline-primary' : 'success';
-
   return (
     <Row key={task._id}>
       <Col xs={12}>
         <div className="todo-item">
           <div className="todo-content">{task.task}</div>
 
-          <div>
+          <div
+            style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'flex-end' }}>
+            <Avatar sx={{ marginRight: '10px' }}> {stringAvatar(task.author.username)} </Avatar>
             <Button variant="outline-danger" onClick={() => handleOnDelete(task._id)} style={{ marginRight: '10px' }}>
               Delete
             </Button>

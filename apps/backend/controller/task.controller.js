@@ -43,7 +43,9 @@ taskController.getAllTasksByUser = async (req, res) => {
   try {
     const id = req.params.userId;
 
-    const tasks = await Task.find({ author: id }).select('-__v');
+    const tasks = await Task.find({ author: id }).populate('author');
+    console.log(tasks);
+    // const tasks = await Task.find({}).populate('author');
     if (!tasks) {
       return res.status(404).send('Not existing Task!');
     }
