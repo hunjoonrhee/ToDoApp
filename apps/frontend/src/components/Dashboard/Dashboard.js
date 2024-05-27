@@ -11,7 +11,7 @@ import { createANewTask, getAllTasksByUser } from '../context/taskStore/taskStor
 import TodoBoard from '../TodoBoard';
 import { Button } from 'react-bootstrap';
 import { loadUser, logOutUser } from '../context/userStore/userStoreSlice';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 function Dashboard() {

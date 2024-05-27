@@ -1,5 +1,5 @@
 import { messages } from './taskStore.messages';
-import { addNewTaskOfUser, deleteTask, editATask, getAllTasks } from './taskStoreSlice';
+import { addNewTaskOfUser, deleteTask, editATask } from './taskStoreSlice';
 
 const backendURL =
   process.env.NODE_ENV === 'production' ? process.env.REACT_APP_BACKEND_PROXY : process.env.REACT_APP_BACKEND_URL_LOCAL;

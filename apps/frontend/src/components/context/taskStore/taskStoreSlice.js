@@ -121,7 +121,7 @@ const taskStoreSlice = createSlice({
         state.addTaskDone = false;
         state.addTaskError = null;
       })
-      .addCase(createANewTask.fulfilled, (state, action) => {
+      .addCase(createANewTask.fulfilled, (state) => {
         state.addTaskLoading = false;
         state.addTaskDone = true;
         state.addTaskError = null;
@@ -138,7 +138,7 @@ const taskStoreSlice = createSlice({
         state.deleteTaskDone = false;
         state.deleteTaskError = null;
       })
-      .addCase(deleteTaskFromServer.fulfilled, (state, action) => {
+      .addCase(deleteTaskFromServer.fulfilled, (state) => {
         state.deleteTaskLoading = false;
         state.deleteTaskDone = true;
         state.deleteTaskError = null;
@@ -155,7 +155,7 @@ const taskStoreSlice = createSlice({
         state.editTaskDone = false;
         state.editTaskError = null;
       })
-      .addCase(editTask.fulfilled, (state, action) => {
+      .addCase(editTask.fulfilled, (state) => {
         state.editTaskLoading = false;
         state.editTaskDone = true;
         state.editTaskError = null;

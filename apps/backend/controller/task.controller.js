@@ -1,6 +1,4 @@
 const Task = require('../models/task');
-const { getUser } = require('./user.controller');
-const User = require('../models/user');
 
 const taskController = {};
 

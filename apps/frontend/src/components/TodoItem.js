@@ -3,7 +3,7 @@ import { Button, Col, Row } from 'react-bootstrap';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteTaskFromServer, editTask, setIsTaskCompleted } from './context/taskStore/taskStoreSlice';
+import { deleteTaskFromServer, editTask } from './context/taskStore/taskStoreSlice';
 
 function TodoItem({ task }) {
   const { me } = useSelector((store) => store.userStore);

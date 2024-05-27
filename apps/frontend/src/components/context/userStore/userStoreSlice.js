@@ -73,7 +73,7 @@ const userStoreSlice = createSlice({
         state.logOutUserDone = false;
         state.logOutUserError = null;
       })
-      .addCase(logOutUser.fulfilled, (state, action) => {
+      .addCase(logOutUser.fulfilled, (state) => {
         state.logOutUserLoading = false;
         state.logOutUserDone = true;
         state.me = null;
@@ -91,7 +91,7 @@ const userStoreSlice = createSlice({
         state.registerDone = false;
         state.registerError = null;
       })
-      .addCase(createANewUser.fulfilled, (state, action) => {
+      .addCase(createANewUser.fulfilled, (state) => {
         state.registerLoading = false;
         state.registerDone = true;
         state.registerError = null;
