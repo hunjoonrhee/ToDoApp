@@ -63,6 +63,7 @@ export const logOutUserThunk = async () => {
 
     if (!res.ok) throw new Error(messages.LOGOUT_USER_ERROR.message);
     sessionStorage.removeItem('token');
+    localStorage.clear();
   } catch (err) {
     throw err;
   }

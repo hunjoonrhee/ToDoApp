@@ -1,5 +1,5 @@
 import { messages } from './taskStore.messages';
-import { addNewTaskOfUser, deleteTask, editATask } from './taskStoreSlice';
+import { addNewTaskOfUser, deleteTaskOfUser, editATask } from './taskStoreSlice';
 
 const backendURL =
   process.env.NODE_ENV === 'production' ? process.env.REACT_APP_BACKEND_PROXY : process.env.REACT_APP_BACKEND_URL_LOCAL;
@@ -27,11 +27,13 @@ export const getAllTasksThunk = async () => {
 };
 
 export const getAllTasksByUserThunk = async (userId) => {
+  const token = sessionStorage.getItem('token');
   try {
     const res = await fetch(`${backendURL}/tasks/${userId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
       },
     });
 
@@ -41,7 +43,7 @@ export const getAllTasksByUserThunk = async (userId) => {
 
     const tasks = await res.json();
 
-    localStorage.getItem(`task–${userId}`);
+    localStorage.setItem(`task–${userId}`, JSON.stringify(tasks));
     return tasks;
   } catch (err) {
     throw new Error(messages.GET_TASKS_ERROR.message);
@@ -63,7 +65,6 @@ export const createTaskThunk = async (newTaskData, { dispatch }) => {
     if (!res.ok) throw new Error(messages.POST_TASK_ERROR.message);
     const newTask = await res.json();
     dispatch(addNewTaskOfUser(newTask));
-    console.log(newTask.author);
     dispatch(getAllTasksByUserThunk(newTask.author));
 
     return newTask;
@@ -85,23 +86,23 @@ export const deleteTaskFromServerThunk = async (dataForDelete, { dispatch }) => 
 
     if (!res.ok) throw new Error(messages.DELETE_TASK_ERROR.message);
 
-    dispatch(deleteTask(dataForDelete));
+    dispatch(deleteTaskOfUser(dataForDelete));
     dispatch(getAllTasksByUserThunk(dataForDelete.userId));
   } catch (err) {
     throw err;
   }
 };
 
-export const editTaskThunk = async (dataForEdit, { dispatch }) => {
+export const editTaskThunk = async (editData, { dispatch }) => {
   const token = sessionStorage.getItem('token');
   try {
-    const res = await fetch(`${backendURL}/task/${dataForEdit.task.task._id}`, {
+    const res = await fetch(`${backendURL}/task/${editData._id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + token,
       },
-      body: JSON.stringify(dataForEdit.task),
+      body: JSON.stringify(editData),
     });
 
     if (!res.ok) throw new Error(messages.EDIT_TASK_ERROR.message);
