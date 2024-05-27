@@ -52,29 +52,24 @@ const taskStoreSlice = createSlice({
       state.tasksOfUser = [...state.tasksOfUser, action.payload];
       localStorage.setItem(`task–${userId}`, JSON.stringify(state.tasksOfUser));
     },
-    deleteTask(state, action) {
+    deleteTaskOfUser(state, action) {
       const userId = action.payload.userId;
       const storedTasks = localStorage.getItem(`task–${userId}`);
       if (storedTasks) {
         state.tasksOfUser = JSON.parse(storedTasks);
       }
-
       state.tasksOfUser = state.tasksOfUser.filter((task) => task._id !== action.payload.taskId);
-      console.log(state.tasksOfUser);
       localStorage.removeItem(`task–${userId}`);
       localStorage.setItem(`task–${userId}`, JSON.stringify(state.tasksOfUser));
     },
     editATask(state, action) {
-      const storedTasks = localStorage.getItem(`task–${userId}`);
+      const storedTasks = localStorage.getItem(`task–${action.payload.author}`);
       if (storedTasks) {
         state.tasksOfUser = JSON.parse(storedTasks);
       }
       state.tasksOfUser = state.tasksOfUser.map((task) => (task._id === action.payload._id ? action.payload : task));
-      // const taskToBeEdited = state.tasks.find((task) => task._id === action.payload._id);
-      // console.log(taskToBeEdited);
 
-      // state.tasks = state.tasks.filter((task) => task._id !== action.payload);
-      localStorage.setItem(`task–${userId}`, JSON.stringify(state.tasksOfUser));
+      localStorage.setItem(`task–${action.payload.author}`, JSON.stringify(state.tasksOfUser));
     },
   },
 
@@ -170,6 +165,6 @@ const taskStoreSlice = createSlice({
   },
 });
 
-export const { addNewTaskOfUser, deleteTask, editATask, setIsTaskCompleted } = taskStoreSlice.actions;
+export const { addNewTaskOfUser, deleteTaskOfUser, editATask, setIsTaskCompleted } = taskStoreSlice.actions;
 
 export const taskStoreReducer = taskStoreSlice.reducer;

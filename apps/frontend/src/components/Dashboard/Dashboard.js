@@ -43,8 +43,6 @@ function Dashboard() {
     }
     taskData.task.trim();
 
-    console.log(me._id);
-
     const newTaskData = {
       taskData: taskData,
       userId: me._id,

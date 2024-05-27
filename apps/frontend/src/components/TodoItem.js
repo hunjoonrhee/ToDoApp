@@ -20,11 +20,7 @@ function TodoItem({ task }) {
   let editData = task;
   const handleOnEdit = useCallback(() => {
     editData = { ...task, isCompleted: !task.isCompleted };
-    const dataForEdit = {
-      editData: editData,
-      userId: me._id,
-    };
-    dispatch(editTask(dataForEdit));
+    dispatch(editTask(editData));
   }, [dispatch, editData.isCompleted]);
   if (editData) {
     task = editData;
