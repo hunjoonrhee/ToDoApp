@@ -2,3 +2,8 @@
 command = "npm run build"
 publish = "/build"
 base = "/apps/frontend"
+
+[[redirects]]
+from = "/*"
+to = "/"
+status = 200
