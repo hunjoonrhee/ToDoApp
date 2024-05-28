@@ -5,7 +5,7 @@ base = "/apps/frontend"
 
 [[redirects]]
 from = "/*"
-to = "/index"
+to = "/index.html"
 status = 200
 
 [[redirects]]
