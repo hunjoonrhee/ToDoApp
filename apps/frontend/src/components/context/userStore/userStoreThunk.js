@@ -6,7 +6,7 @@ console.log(backendURL);
 
 export const createANewUserThunk = async (userData, { rejectedWithValue }) => {
   try {
-    const res = await fetch(`${backendURL}/user`, {
+    const res = await fetch(`${backendURL}/api/user`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ export const createANewUserThunk = async (userData, { rejectedWithValue }) => {
 
 export const logInUserThunk = async (userData, { rejectWithValue }) => {
   try {
-    const res = await fetch(`${backendURL}/user/login`, {
+    const res = await fetch(`${backendURL}/api/user/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ export const logInUserThunk = async (userData, { rejectWithValue }) => {
 
 export const logOutUserThunk = async () => {
   try {
-    const res = await fetch(`${backendURL}/user/logout`, {
+    const res = await fetch(`${backendURL}/api/user/logout`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ export const logOutUserThunk = async () => {
 export const loadUserThunk = async () => {
   const token = sessionStorage.getItem('token');
   try {
-    const res = await fetch(`${backendURL}/user/me`, {
+    const res = await fetch(`${backendURL}/api/user/me`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
