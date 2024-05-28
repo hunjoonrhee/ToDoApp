@@ -43,9 +43,9 @@ app.get('/', (req, res) => {
   res.send('Hello Joon');
 });
 
-app.use('/task', taskRouter);
-app.use('/tasks', tasksRouter);
-app.use('/user', userRouter);
+app.use('/api/task', taskRouter);
+app.use('/api/tasks', tasksRouter);
+app.use('/api/user', userRouter);
 
 app.listen(process.env.PORT || 5001, () => {
   console.log('server started and listening port 5001');
