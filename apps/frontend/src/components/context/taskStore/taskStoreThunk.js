@@ -6,7 +6,7 @@ const backendURL =
 
 export const getAllTasksThunk = async () => {
   try {
-    const res = await fetch(`${backendURL}/tasks`, {
+    const res = await fetch(`${backendURL}/api/tasks`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -29,7 +29,7 @@ export const getAllTasksThunk = async () => {
 export const getAllTasksByUserThunk = async (userId) => {
   const token = sessionStorage.getItem('token');
   try {
-    const res = await fetch(`${backendURL}/tasks/${userId}`, {
+    const res = await fetch(`${backendURL}/api/tasks/${userId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ export const getAllTasksByUserThunk = async (userId) => {
 export const createTaskThunk = async (newTaskData, { dispatch }) => {
   const token = sessionStorage.getItem('token');
   try {
-    const res = await fetch(`${backendURL}/task`, {
+    const res = await fetch(`${backendURL}/api/task`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ export const createTaskThunk = async (newTaskData, { dispatch }) => {
 export const deleteTaskFromServerThunk = async (dataForDelete, { dispatch }) => {
   const token = sessionStorage.getItem('token');
   try {
-    const res = await fetch(`${backendURL}/task/${dataForDelete.taskId}`, {
+    const res = await fetch(`${backendURL}/api/task/${dataForDelete.taskId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -96,7 +96,7 @@ export const deleteTaskFromServerThunk = async (dataForDelete, { dispatch }) => 
 export const editTaskThunk = async (editData, { dispatch }) => {
   const token = sessionStorage.getItem('token');
   try {
-    const res = await fetch(`${backendURL}/task/${editData._id}`, {
+    const res = await fetch(`${backendURL}/api/task/${editData._id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
