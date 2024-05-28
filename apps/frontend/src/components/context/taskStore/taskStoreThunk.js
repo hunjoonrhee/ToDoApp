@@ -2,7 +2,7 @@ import { messages } from './taskStore.messages';
 import { addNewTaskOfUser, deleteTaskOfUser, editATask } from './taskStoreSlice';
 
 const backendURL =
-  process.env.NODE_ENV === 'production' ? '/.netlify/functions/proxy' : process.env.REACT_APP_BACKEND_URL_LOCAL;
+  process.env.NODE_ENV === 'production' ? process.env.REACT_APP_BACKEND_PROXY : process.env.REACT_APP_BACKEND_URL_LOCAL;
 
 export const getAllTasksThunk = async () => {
   try {

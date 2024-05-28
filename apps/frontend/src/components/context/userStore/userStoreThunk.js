@@ -1,7 +1,7 @@
 import { messages } from './userStore.messages';
 
 const backendURL =
-  process.env.NODE_ENV === 'production' ? '/.netlify/functions/proxy' : process.env.REACT_APP_BACKEND_URL_LOCAL;
+  process.env.NODE_ENV === 'production' ? process.env.REACT_APP_BACKEND_PROXY : process.env.REACT_APP_BACKEND_URL_LOCAL;
 console.log(backendURL);
 
 export const createANewUserThunk = async (userData, { rejectedWithValue }) => {

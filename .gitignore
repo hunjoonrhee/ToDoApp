@@ -1,3 +1,6 @@
 .idea
 apps/backend/node_modules
 apps/backend/.env
+
+# Local Netlify folder
+.netlify
