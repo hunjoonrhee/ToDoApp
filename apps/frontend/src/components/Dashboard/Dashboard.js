@@ -14,10 +14,10 @@ import { loadUser, logOutUser } from '../context/userStore/userStoreSlice';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-function Dashboard() {
+function Dashboard({ me }) {
   const dispatch = useDispatch();
   const { tasksOfUser } = useSelector((store) => store.taskStore);
-  const { me } = useSelector((store) => store.userStore);
+
   const navigate = useNavigate();
 
   useEffect(() => {
